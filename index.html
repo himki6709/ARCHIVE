@@ -3,52 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE GLOBAL CREATOR HOMEPAGE | OFFICIAL</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <title>THE ETERNAL ARK | KAWSAR</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root { 
+            --bg: #030303; 
+            --gold: #D4AF37; 
+            --gold-glow: rgba(212, 175, 55, 0.4);
+            --border: rgba(212, 175, 55, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+        body { 
+            background: var(--bg); color: #fff; font-family: 'Montserrat', sans-serif; 
+            overflow-x: hidden;
+        }
+
+        /* --- UI Elements --- */
+        #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%; opacity: 0.3; }
+
+        header {
+            position: fixed; top: 0; width: 100%; padding: 20px 6%;
+            display: flex; justify-content: space-between; align-items: center; z-index: 5000;
+            background: rgba(0,0,0,0.9); backdrop-filter: blur(15px); border-bottom: 1px solid var(--border);
+        }
+        .logo { font-family: 'Cinzel'; font-size: 24px; letter-spacing: 8px; color: var(--gold); text-decoration: none; font-weight: 900; }
+        
+        .nav-btns { display: flex; gap: 15px; align-items: center; }
+        .btn-gold { 
+            padding: 10px 20px; font-family: 'Cinzel'; font-size: 11px; letter-spacing: 1px;
+            background: transparent; border: 1px solid var(--gold); color: var(--gold);
+            cursor: pointer; transition: 0.4s; text-decoration: none;
+        }
+        .btn-gold:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px var(--gold); }
+
+        /* --- Map Section --- */
+        .map-section { padding-top: 150px; text-align: center; }
+        .hero-title { font-family: 'Cinzel'; font-size: 14px; letter-spacing: 10px; color: var(--gold); margin-bottom: 40px; }
+
+        /* Search Bar */
+        .search-container { margin-bottom: 30px; }
+        .search-box {
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            padding: 12px 20px; color: #fff; width: 250px; text-align: center;
+            font-family: 'Cinzel'; letter-spacing: 2px;
+        }
+
+        /* Canvas Viewport */
+        #map-viewport {
+            width: 90%; max-width: 1200px; height: 600px;
+            margin: 0 auto; border: 1px solid var(--gold);
+            overflow: auto; background: #000;
+            position: relative; box-shadow: 0 0 50px rgba(0,0,0,1);
+        }
+        #mainCanvas { cursor: crosshair; display: block; }
+
+        /* --- Footer & Social --- */
+        .social-bar { position: fixed; bottom: 30px; left: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 5000; }
+        .social-icon { 
+            width: 50px; height: 50px; border: 1px solid var(--gold); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; color: var(--gold);
+            text-decoration: none; font-size: 20px; transition: 0.4s; background: rgba(0,0,0,0.8);
+        }
+        .social-icon:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px var(--gold); }
+
+        footer { padding: 60px 6%; text-align: center; font-size: 11px; color: #666; border-top: 1px solid var(--border); margin-top: 50px; }
+        footer strong { color: var(--gold); }
+
+        /* --- Payment Drawer --- */
+        #drawer {
+            position: fixed; top: 0; right: -100%; width: 100%; max-width: 450px; height: 100vh;
+            background: #080808; border-left: 1px solid var(--gold); z-index: 9999;
+            padding: 40px 30px; transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1); overflow-y: auto;
+        }
+        #drawer.active { right: 0; }
+        .address-item { margin-bottom: 25px; }
+        .address-name { font-size: 10px; color: var(--gold); letter-spacing: 2px; font-weight: bold; margin-bottom: 8px; display: block; }
+        .full-address { 
+            background: #000; padding: 15px; border: 1px dashed var(--gold); font-size: 12px; 
+            display: flex; justify-content: space-between; align-items: center; 
+            cursor: pointer; font-family: monospace; color: #ccc; transition: 0.3s;
+        }
+        .full-address:active { background: var(--gold); color: #000; }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            header { padding: 15px; flex-direction: column; gap: 10px; }
+            .nav-btns { width: 100%; justify-content: center; }
+            .hero-title { font-size: 10px; letter-spacing: 5px; }
+            #map-viewport { height: 400px; width: 95%; }
+        }
+    </style>
 </head>
 <body>
-<div class="top-nav">
-    <div class="payment-pills">
-        <div class="pill yellow" onclick="copyVal('912221034')">BINANCE ID: 912221034</div>
-        <div class="pill white" onclick="copyVal('TTapBkTqrDnzHbWzek6wSBUTcJKFmR8Ws6')">USDT (TRC20)</div>
-    </div>
-    <div class="social-icons">
-        <a href="https://facebook.com/theglobalcreatorhomepage" target="_blank"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://instagram.com/theglobalcreatorhomepage" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a href="https://x.com/theglobalcreatorhomepage" target="_blank"><i class="fab fa-twitter"></i></a>
-        <a href="https://youtube.com/@theglobalcreatorhomepage" target="_blank"><i class="fab fa-youtube"></i></a>
-    </div>
-</div>
 
-<div class="hero">
-    <h1 class="shimmer-title">THE GLOBAL CREATOR HOMEPAGE</h1>
-    <p class="tagline">A LIMITED LEGACY FOR 20,000 ELITE GLOBAL CREATORS.</p>
-    <div class="stats-row">
-        <div class="stat-box">TOTAL PLOTS: 20,000</div>
-        <div class="stat-box sold">CLAIMED: <span id="sold-count">0</span></div>
-        <div class="stat-box rem">VACANT: <span id="rem-count">20,000</span></div>
+    <canvas id="bg-canvas"></canvas>
+
+    <header>
+        <a href="#" class="logo">ARK</a>
+        <div class="nav-btns">
+            <a href="affiliate.html" class="btn-gold">AFFILIATE PROGRAM</a>
+            <button class="btn-gold" onclick="openDrawer()"><i class="fa-solid fa-crown"></i> REGISTRY</button>
+        </div>
+    </header>
+
+    <main class="map-section">
+        <h2 class="hero-title">THE ETERNAL PIXEL LEGACY</h2>
+
+        <div class="search-container">
+            <input type="number" id="searchPlot" class="search-box" placeholder="SEARCH PLOT #" oninput="findPlot()">
+        </div>
+
+        <div id="map-viewport">
+            <canvas id="mainCanvas"></canvas>
+        </div>
+
+        <div style="margin-top: 40px;">
+            <a href="order.html" class="btn-gold" style="padding: 15px 40px; font-size: 14px;">RESERVE YOUR PLOT ($1)</a>
+        </div>
+    </main>
+
+    <div class="social-bar">
+        <a href="https://x.com/kawsar6700" target="_blank" class="social-icon"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="https://wa.me/8801576940717" target="_blank" class="social-icon"><i class="fa-brands fa-whatsapp"></i></a>
     </div>
-    <div class="actions">
-        <a href="order.html" class="cta-gold">RESERVE MY PLOT ($20)</a>
-        <button onclick="downloadMap()" class="cta-outline"><i class="fas fa-camera"></i> DOWNLOAD MAP</button>
+
+    <div id="drawer">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+            <h2 style="font-family:'Cinzel'; color:var(--gold);">ARK REGISTRY</h2>
+            <i class="fa-solid fa-xmark" style="color:var(--gold); cursor:pointer; font-size:24px;" onclick="closeDrawer()"></i>
+        </div>
+
+        <div class="address-item">
+            <span class="address-name">BKASH (SEND MONEY)</span>
+            <div class="full-address" onclick="copy('+8801756206213')">
+                <span>+8801756206213</span> <i class="fa-regular fa-copy"></i>
+            </div>
+        </div>
+
+        <div class="address-item">
+            <span class="address-name">BINANCE PAY UID</span>
+            <div class="full-address" onclick="copy('912221034')">
+                <span>912221034</span> <i class="fa-regular fa-copy"></i>
+            </div>
+        </div>
+
+        <div class="address-item">
+            <span class="address-name">USDT (TRC20)</span>
+            <div class="full-address" onclick="copy('TTapBkTqrDnzHbWzek6wSBUTcJKFmR8Ws6')">
+                <span>TTapBkTqrDnzHbWzek6wSBUTcJKFmR8Ws6</span> <i class="fa-regular fa-copy"></i>
+            </div>
+        </div>
+
+        <p style="font-size: 10px; color: #555; margin-top: 30px; line-height: 1.6;">
+            * Click address to copy automatically. After payment, go to 'Reserve Plot' and submit your details.
+        </p>
     </div>
-</div>
 
-<div class="map-container">
-    <div id="viewport"><div id="mover"><canvas id="mainCanvas"></canvas></div></div>
-</div>
+    <footer>
+        <p>© 2026 <strong>ARK</strong>. Owned by <strong>KAWSAR</strong>. All rights reserved.</p>
+        <p>I am not responsible for the content of external sites. Images featured on ARK are © of their respective owners.</p>
+    </footer>
 
-<div class="future-notice">
-    <p>🌍 <strong>GLOBAL CAPABILITY:</strong> This platform is designed to host 100 creators from every country worldwide.</p>
-    <p style="color: #FCD535; font-weight: bold;">⚠️ LIMITED EDITION: This map is strictly limited to 20,000 plots. The number of spots will NEVER be increased in the future.</p>
-</div>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 
-<footer>THE GLOBAL CREATOR HOMEPAGE © 2026 KAWSAR AHMED</footer>
-<a href="support.html" class="wa-float"><i class="fab fa-whatsapp"></i> 24/7 SUPPORT</a>
-<div id="legacy-tooltip"></div>
-<script src="script.js"></script>
+    <script>
+        // --- Firebase Config (As provided by you) ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
+            authDomain: "the-5k-elite-legacy.firebaseapp.com",
+            databaseURL: "https://the-5k-elite-legacy-default-rtdb.firebaseio.com",
+            projectId: "the-5k-elite-legacy",
+            storageBucket: "the-5k-elite-legacy.firebasestorage.app",
+            messagingSenderId: "440824313752",
+            appId: "1:440824313752:web:2c93344dcfe2ba0a4c5ded"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // --- Canvas Logic ---
+        const canvas = document.getElementById('mainCanvas');
+        const ctx = canvas.getContext('2d');
+        const blockSize = 30; 
+        const cols = 50; // Total 1000 plots initially (50x20)
+        let rows = 20; 
+        
+        canvas.width = cols * blockSize;
+        canvas.height = rows * blockSize;
+
+        function drawGrid() {
+            ctx.fillStyle = "#111";
+            ctx.fillRect(0,0, canvas.width, canvas.height);
+            ctx.strokeStyle = "rgba(212,175,55,0.1)";
+            ctx.lineWidth = 0.5;
+
+            for(let i=0; i<=cols; i++) {
+                ctx.beginPath(); ctx.moveTo(i*blockSize, 0); ctx.lineTo(i*blockSize, canvas.height); ctx.stroke();
+            }
+            for(let j=0; j<=rows; j++) {
+                ctx.beginPath(); ctx.moveTo(0, j*blockSize); ctx.lineTo(canvas.width, j*blockSize); ctx.stroke();
+            }
+        }
+
+        // --- Plot Search & Highlight ---
+        function findPlot() {
+            const val = document.getElementById('searchPlot').value;
+            if(val > 0 && val <= (cols * rows)) {
+                const id = val - 1;
+                const x = (id % cols) * blockSize;
+                const y = Math.floor(id / cols) * blockSize;
+                
+                document.getElementById('map-viewport').scrollTo({
+                    left: x - 100,
+                    top: y - 100,
+                    behavior: 'smooth'
+                });
+
+                // Flash Highlight
+                drawGrid();
+                ctx.strokeStyle = "#D4AF37";
+                ctx.lineWidth = 3;
+                ctx.strokeRect(x, y, blockSize, blockSize);
+                ctx.shadowBlur = 15; ctx.shadowColor = "#D4AF37";
+            }
+        }
+
+        // --- Drawer & Utils ---
+        function openDrawer() { document.getElementById('drawer').classList.add('active'); }
+        function closeDrawer() { document.getElementById('drawer').classList.remove('active'); }
+        function copy(text) {
+            navigator.clipboard.writeText(text);
+            alert("Copied to clipboard: " + text);
+        }
+
+        // --- Background Stars ---
+        const bg = document.getElementById('bg-canvas');
+        const bctx = bg.getContext('2d');
+        function resizeBg() { bg.width = window.innerWidth; bg.height = window.innerHeight; }
+        window.onresize = resizeBg; resizeBg();
+        function animateBg() {
+            bctx.clearRect(0,0,bg.width,bg.height);
+            for(let i=0; i<50; i++) {
+                bctx.fillStyle = "rgba(212,175,55,0.2)";
+                bctx.beginPath();
+                bctx.arc(Math.random()*bg.width, Math.random()*bg.height, 1, 0, Math.PI*2);
+                bctx.fill();
+            }
+            requestAnimationFrame(animateBg);
+        }
+        
+        window.onload = () => {
+            drawGrid();
+            animateBg();
+        };
+    </script>
 </body>
 </html>
