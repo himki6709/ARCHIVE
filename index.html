@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE GLOBAL CREATOR HOMEPAGE | OFFICIAL</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+</head>
+<body>
+<div class="top-nav">
+    <div class="payment-pills">
+        <div class="pill yellow" onclick="copyVal('912221034')">BINANCE ID: 912221034</div>
+        <div class="pill white" onclick="copyVal('TTapBkTqrDnzHbWzek6wSBUTcJKFmR8Ws6')">USDT (TRC20)</div>
+    </div>
+    <div class="social-icons">
+        <a href="https://facebook.com/theglobalcreatorhomepage" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://instagram.com/theglobalcreatorhomepage" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://x.com/theglobalcreatorhomepage" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://youtube.com/@theglobalcreatorhomepage" target="_blank"><i class="fab fa-youtube"></i></a>
+    </div>
+</div>
+
+<div class="hero">
+    <h1 class="shimmer-title">THE GLOBAL CREATOR HOMEPAGE</h1>
+    <p class="tagline">A LIMITED LEGACY FOR 20,000 ELITE GLOBAL CREATORS.</p>
+    <div class="stats-row">
+        <div class="stat-box">TOTAL PLOTS: 20,000</div>
+        <div class="stat-box sold">CLAIMED: <span id="sold-count">0</span></div>
+        <div class="stat-box rem">VACANT: <span id="rem-count">20,000</span></div>
+    </div>
+    <div class="actions">
+        <a href="order.html" class="cta-gold">RESERVE MY PLOT ($20)</a>
+        <button onclick="downloadMap()" class="cta-outline"><i class="fas fa-camera"></i> DOWNLOAD MAP</button>
+    </div>
+</div>
+
+<div class="map-container">
+    <div id="viewport"><div id="mover"><canvas id="mainCanvas"></canvas></div></div>
+</div>
+
+<div class="future-notice">
+    <p>🌍 <strong>GLOBAL CAPABILITY:</strong> This platform is designed to host 100 creators from every country worldwide.</p>
+    <p style="color: #FCD535; font-weight: bold;">⚠️ LIMITED EDITION: This map is strictly limited to 20,000 plots. The number of spots will NEVER be increased in the future.</p>
+</div>
+
+<footer>THE GLOBAL CREATOR HOMEPAGE © 2026 KAWSAR AHMED</footer>
+<a href="support.html" class="wa-float"><i class="fab fa-whatsapp"></i> 24/7 SUPPORT</a>
+<div id="legacy-tooltip"></div>
+<script src="script.js"></script>
+</body>
+</html>

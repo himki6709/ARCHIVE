@@ -1,0 +1,16 @@
+:root { --b-yellow: #FCD535; --b-dark: #1E2329; --b-bg: #0B0E11; }
+body { background: var(--b-bg); color: #EAECEF; font-family: sans-serif; margin: 0; text-align: center; }
+.top-nav { display: flex; justify-content: space-between; padding: 15px 5%; background: var(--b-dark); border-bottom: 1px solid #333; align-items: center; }
+.pill { padding: 8px 15px; border: 1px solid var(--b-yellow); color: var(--b-yellow); border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold; }
+.social-icons a { color: #fff; margin-left: 15px; font-size: 18px; }
+.shimmer-title { font-size: 38px; font-weight: 900; color: var(--b-yellow); margin-top: 30px; margin-bottom: 5px; }
+.tagline { color: #848e9c; font-size: 14px; margin-bottom: 30px; letter-spacing: 1px; }
+.stats-row { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; }
+.stat-box { background: var(--b-dark); padding: 12px 20px; border-radius: 5px; border: 1px solid #333; font-weight: bold; }
+.map-container { width: 95%; max-width: 1200px; margin: 0 auto; border: 2px solid #333; border-radius: 10px; background: #000; overflow: hidden; }
+.cta-gold { background: var(--b-yellow); color: #000; padding: 15px 35px; border-radius: 5px; font-weight: bold; text-decoration: none; display: inline-block; }
+.cta-outline { border: 1px solid #5e6673; color: #fff; padding: 15px 35px; border-radius: 5px; text-decoration: none; display: inline-block; margin-left: 10px; cursor: pointer; background: transparent; }
+.future-notice { margin: 40px auto; max-width: 800px; padding: 20px; background: rgba(252, 213, 53, 0.05); border: 1px dashed var(--b-yellow); color: #ccc; font-size: 13px; line-height: 1.6; }
+.wa-float { position: fixed; bottom: 20px; right: 20px; background: #2ebd85; color: #fff; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; z-index: 1000; }
+#legacy-tooltip { position: absolute; display: none; background: rgba(0,0,0,0.9); color: #FCD535; padding: 8px; border-radius: 4px; font-size: 12px; z-index: 10001; pointer-events: none; border: 1px solid var(--b-yellow); }
+footer { padding: 40px; color: #5e6673; font-size: 12px; }

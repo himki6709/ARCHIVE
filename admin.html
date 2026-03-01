@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CEO ADMIN | THE GLOBAL CREATOR HOMEPAGE</title>
+    <style>
+        body { font-family: sans-serif; background: #0B0E11; color: #fff; padding: 20px; display: none; }
+        .card { background: #1E2329; padding: 20px; margin-bottom: 20px; border-radius: 10px; border-left: 8px solid #FCD535; }
+        input { padding: 12px; width: 250px; margin-right: 10px; border: 1px solid #444; background: #0B0E11; color: #fff; border-radius: 4px; }
+        button { padding: 12px 25px; cursor: pointer; border-radius: 5px; border: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <script>
+        // আপনার জিমেইল পাসওয়ার্ড হিসেবে কাজ করবে
+        const accessPass = prompt("Access Password:");
+        if(accessPass === "zoomlink34@gmail.com") { 
+            document.body.style.display = "block"; 
+        } else { 
+            alert("ভুল পাসওয়ার্ড!");
+            window.location.href = "index.html"; 
+        }
+    </script>
+
+    <h1 style="color:#FCD535">PENDING APPROVALS</h1>
+    <div id="order-list">Loading...</div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+
+    <script>
+        // পূর্ণাঙ্গ Config (এটি ছাড়া Rules কাজ করবে না)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
+            authDomain: "the-5k-elite-legacy.firebaseapp.com",
+            databaseURL: "https://the-5k-elite-legacy-default-rtdb.firebaseio.com",
+            projectId: "the-5k-elite-legacy",
+            storageBucket: "the-5k-elite-legacy.firebasestorage.app",
+            messagingSenderId: "440824313752",
+            appId: "1:440824313752:web:2c93344dcfe2ba0a4c5ded"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const auth = firebase.auth();
+
+        // অ্যাডমিন প্যানেলে ডাটা দেখানোর ফাংশন
+        function loadOrders() {
+            db.ref('orders').on('value', s => {
+                const list = document.getElementById('order-list'); 
+                list.innerHTML = "";
+                const data = s.val(); 
+                if(!data) return list.innerHTML = "No pending orders.";
+                
+                Object.keys(data).forEach(id => {
+                    list.innerHTML += `<div class="card">
+                        <b>PLOT #${id}</b> | BRAND: ${data[id].name} <br><br>
+                        <input type="text" id="img_${id}" placeholder="Logo URL">
+                        <input type="text" id="web_${id}" placeholder="Website URL">
+                        <button onclick="approve('${id}', '${data[id].name}')" style="background:#2ebd85; color:white;">APPROVE</button>
+                        <button onclick="reject('${id}')" style="background:red; color:white; margin-left:10px;">REJECT / DELETE</button>
+                    </div>`;
+                });
+            }, (error) => {
+                console.error(error);
+                document.getElementById('order-list').innerHTML = "Permission Denied! Please login to Firebase Console.";
+            });
+        }
+
+        // এপ্রুভ ও ডিলিট ফাংশন
+        function approve(id, name) {
+            const img = document.getElementById('img_'+id).value, web = document.getElementById('web_'+id).value;
+            if(!img) return alert("Logo URL missing!");
+            db.ref('pixels/'+id).set({name, imageUrl:img, link:web||"#", plotID:id}).then(() => {
+                db.ref('notifications/'+id).set({status: "Approved", message: "Your Brand is Live!"});
+                db.ref('orders/'+id).remove();
+            });
+        }
+
+        function reject(id) {
+            if(confirm("Delete this order?")) {
+                db.ref('orders/'+id).remove();
+            }
+        }
+
+        // পেজ লোড হলে ডাটা আনা শুরু করবে
+        loadOrders();
+    </script>
+</body>
+</html>

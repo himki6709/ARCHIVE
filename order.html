@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RESERVE | THE GLOBAL CREATOR HOMEPAGE</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        body { background: #0B0E11; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .box { background: #1E2329; padding: 35px; border-radius: 15px; border: 2px solid #FCD535; text-align: center; width: 380px; }
+        .warning { background: rgba(252, 213, 53, 0.1); color: #FCD535; padding: 15px; border-radius: 8px; font-size: 13px; margin-bottom: 25px; border: 1px solid #FCD535; line-height: 1.5; text-align: left; }
+        input { width: 100%; padding: 14px; margin: 12px 0; background: #2B3139; border: 1px solid #444; color: #fff; border-radius: 8px; font-size: 15px; box-sizing: border-box; outline: none; }
+        .btn { width: 100%; padding: 16px; background: #FCD535; color: #000; font-weight: bold; border: none; cursor: pointer; border-radius: 8px; font-size: 16px; margin-top: 10px; }
+        .back { display: inline-block; margin-top: 20px; color: #848e9c; text-decoration: none; font-size: 14px; }
+        #celeb { display: none; position: fixed; inset: 0; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10; }
+    </style>
+</head>
+<body>
+    <div class="box" id="f-box">
+        <div class="warning">
+            ⚠️ <strong>IMPORTANT:</strong> Current Plot Price: <strong>$20</strong>. After payment, send your Brand Logo and Link to Customer Support.
+        </div>
+        <h2 style="color:#FCD535; margin-top:0;">RESERVE YOUR PLOT</h2>
+        <input type="text" id="bn" placeholder="Your Brand Name">
+        <input type="number" id="pn" placeholder="Plot Number (1-20000)">
+        <button class="btn" onclick="submitOrder()">SUBMIT REQUEST</button>
+        <a href="index.html" class="back">← Back to Homepage</a>
+    </div>
+
+    <div id="celeb">
+        <h1 style="color:#000; font-size: 45px; font-weight: 900;">SUCCESS! 🎉</h1>
+        <h2 id="ub" style="color:#333;"></h2>
+        <p style="color: #444; font-weight: bold; font-size: 18px;">Contact Support to activate your plot.</p>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script>
+        firebase.initializeApp({databaseURL: "https://the-5k-elite-legacy-default-rtdb.firebaseio.com/"});
+        function submitOrder() {
+            const n = document.getElementById('bn').value, p = document.getElementById('pn').value;
+            if(!n || !p || p < 1 || p > 20000) return alert("Enter valid details (1-20000)!");
+            firebase.database().ref('orders/'+p).set({name:n, plotID:p}).then(() => {
+                document.getElementById('ub').innerText = "Brand: " + n;
+                document.getElementById('f-box').style.display='none';
+                document.body.style.background = "#FCD535";
+                document.getElementById('celeb').style.display='flex';
+                var end = Date.now() + 5000;
+                (function frame() {
+                    confetti({ particleCount: 15, angle: 60, spread: 70, origin: { x: 0, y: 0.6 } });
+                    confetti({ particleCount: 15, angle: 120, spread: 70, origin: { x: 1, y: 0.6 } });
+                    if (Date.now() < end) requestAnimationFrame(frame);
+                }());
+                setTimeout(()=> window.location.href="index.html", 6000);
+            });
+        }
+    </script>
+</body>
+</html>

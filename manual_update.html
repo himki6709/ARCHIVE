@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MASTER PANEL | THE GLOBAL CREATOR HOMEPAGE</title>
+    <style>
+        body { background: #0B0E11; color: #fff; font-family: sans-serif; padding: 20px; display: none; }
+        .grid { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .card { background: #1E2329; padding: 25px; border-radius: 10px; border: 1px solid #333; }
+        input { width: 100%; padding: 12px; margin: 10px 0; background: #0B0E11; border: 1px solid #444; color: #fff; border-radius: 4px; box-sizing: border-box; }
+        .btn { width: 100%; padding: 15px; background: #FCD535; color: #000; font-weight: bold; border: none; cursor: pointer; border-radius: 4px; }
+        .item { padding: 10px; background: #000; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
+    </style>
+</head>
+<body>
+    <script>
+        if(prompt("Master Password:") === "zoomlink34@gmail.com") { 
+            document.body.style.display = "block"; 
+        } else { 
+            window.location.href = "index.html"; 
+        }
+    </script>
+
+    <div class="grid">
+        <div class="card">
+            <h2>DIRECT PUBLISH</h2>
+            <input type="number" id="mPlot" placeholder="Plot ID (1-20000)">
+            <input type="text" id="mBrand" placeholder="Brand Name">
+            <input type="text" id="mImg" placeholder="Logo URL">
+            <input type="text" id="mWeb" placeholder="Website URL">
+            <button class="btn" onclick="directPublish()">GO LIVE NOW</button>
+        </div>
+        <div class="card">
+            <h2>LIVE RECORDS</h2>
+            <div id="liveRecords" style="height: 400px; overflow-y: auto;">Loading...</div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
+            authDomain: "the-5k-elite-legacy.firebaseapp.com",
+            databaseURL: "https://the-5k-elite-legacy-default-rtdb.firebaseio.com",
+            projectId: "the-5k-elite-legacy",
+            appId: "1:440824313752:web:2c93344dcfe2ba0a4c5ded"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        function directPublish() {
+            const name = document.getElementById('mBrand').value, img = document.getElementById('mImg').value, 
+                  web = document.getElementById('mWeb').value, pid = parseInt(document.getElementById('mPlot').value);
+            if(!pid || pid < 1 || pid > 20000) return alert("Invalid Plot ID!");
+            db.ref('pixels/'+pid).set({name, imageUrl:img, link:web||"#", plotID:pid}).then(() => alert("Plot #" + pid + " Live!"));
+        }
+
+        db.ref('pixels').on('value', s => {
+            const list = document.getElementById('liveRecords'); list.innerHTML = "";
+            const data = s.val(); if(!data) return list.innerHTML = "No Records.";
+            Object.keys(data).forEach(id => {
+                list.innerHTML += `<div class="item">
+                    <span>#${id} - ${data[id].name}</span>
+                    <button onclick="deletePixel('${id}')" style="background:red; color:white; border:none; cursor:pointer; padding:5px 10px; border-radius:3px;">DELETE</button>
+                </div>`;
+            });
+        });
+
+        function deletePixel(id) {
+            if(confirm("Delete this Live Record?")) {
+                db.ref('pixels/'+id).remove();
+            }
+        }
+    </script>
+</body>
+</html>

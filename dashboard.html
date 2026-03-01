@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TRACK | THE GLOBAL CREATOR HOMEPAGE</title>
+    <style>
+        body { background: #0B0E11; color: #fff; font-family: sans-serif; text-align: center; padding: 50px; }
+        .card { background: #1E2329; border: 1px solid #FCD535; padding: 40px; border-radius: 15px; display: inline-block; width: 320px; }
+        input { width: 90%; padding: 15px; margin-bottom: 20px; border-radius: 5px; border: 1px solid #444; background: #2B3139; color: #fff; }
+        button { width: 100%; padding: 15px; background: #FCD535; border:none; font-weight:bold; cursor:pointer; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2 style="color:#FCD535;">TRACK STATUS</h2>
+        <input type="number" id="plotID" placeholder="Enter Plot ID">
+        <button onclick="check()">CHECK NOW</button>
+        <div id="resBox" style="margin-top:20px; padding:15px; background:#2B3139; display:none; border-radius:5px;">
+            <h3 id="s" style="color:#FCD535;"></h3>
+            <p id="m"></p>
+        </div>
+        <a href="index.html" style="display:block; margin-top:20px; color:#888; text-decoration:none;">← Back</a>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script>
+        firebase.initializeApp({databaseURL: "https://the-5k-elite-legacy-default-rtdb.firebaseio.com/"});
+        function check() {
+            const id = document.getElementById('plotID').value;
+            firebase.database().ref('notifications/'+id).once('value', s => {
+                const d = s.val(); if(!d) return alert("Pending...");
+                document.getElementById('resBox').style.display = 'block';
+                document.getElementById('s').innerText = d.status;
+                document.getElementById('m').innerText = d.message;
+            });
+        }
+    </script>
+</body>
+</html>
