@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JULY LEGACY | স্মৃতি চিরন্তন</title>
+    <title>THE JULY LEGACY | GLOBAL CREATOR HOMEPAGE</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
@@ -12,90 +12,87 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
-        :root { 
-            --red: #FF4D4D; --dark: #0B0E11; --card: #1E2329; 
-            --bkash: #e2136e; --rocket: #8c3494; --white: #FFFFFF;
-        }
-
-        body { 
-            background: var(--dark); color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            margin: 0; text-align: center; overflow-x: hidden;
-        }
-
-        /* Top Navigation */
-        .top-nav { background: var(--card); padding: 15px; border-bottom: 2px solid var(--red); display: flex; justify-content: space-around; flex-wrap: wrap; gap: 10px; position: sticky; top: 0; z-index: 1000; }
-        .pill { padding: 8px 15px; border-radius: 5px; font-weight: bold; cursor: pointer; color: #fff; border: none; font-size: 13px; }
-        .search-container { display: flex; background: #2B3139; border-radius: 5px; padding: 2px 10px; align-items: center; border: 1px solid #444; }
-        .search-container input { background: transparent; border: none; color: #fff; padding: 5px; width: 80px; outline: none; }
-
-        /* Hero Section */
-        .hero { padding: 50px 20px; background: linear-gradient(180deg, rgba(255,77,77,0.15) 0%, rgba(11,14,17,1) 100%); }
-        .shimmer-title { font-size: clamp(28px, 7vw, 45px); font-weight: 900; color: var(--red); margin: 0; text-transform: uppercase; }
-        .tagline { font-size: 16px; color: #848e9c; margin: 15px 0; }
+        /* Exact Design Copy from your provided files */
+        :root { --b-yellow: #FCD535; --b-dark: #1E2329; --b-bg: #0B0E11; --red-accent: #FF4D4D; }
         
-        .stats { display: flex; justify-content: center; gap: 15px; margin: 30px 0; }
-        .stat-box { background: var(--card); padding: 15px; border-radius: 10px; border: 1px solid #333; min-width: 100px; }
-        .stat-box span { display: block; font-size: 20px; font-weight: bold; color: var(--red); }
+        body { background: var(--b-bg); color: #EAECEF; font-family: sans-serif; margin: 0; text-align: center; overflow-x: hidden; }
+        
+        .top-nav { display: flex; justify-content: space-between; padding: 15px 5%; background: var(--b-dark); border-bottom: 1px solid #333; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        
+        .pill { padding: 8px 15px; border: 1px solid var(--b-yellow); color: var(--b-yellow); border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold; background: transparent; transition: 0.3s; }
+        .pill:hover { background: var(--b-yellow); color: #000; }
+        .pill.bkash { border-color: #e2136e; color: #e2136e; }
+        .pill.rocket { border-color: #8c3494; color: #8c3494; }
 
-        /* Map Canvas */
-        .map-wrapper { 
-            width: 95%; max-width: 1000px; margin: 0 auto; 
-            background: #fff; border: 5px solid var(--card); border-radius: 15px; 
-            height: 600px; overflow: auto; position: relative;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
-        }
-        canvas { display: block; margin: 0 auto; }
+        .shimmer-title { font-size: clamp(24px, 6vw, 42px); font-weight: 900; color: var(--b-yellow); margin-top: 30px; margin-bottom: 5px; text-transform: uppercase; }
+        .tagline { color: #848e9c; font-size: 14px; margin-bottom: 30px; letter-spacing: 1px; }
+        
+        .stats-row { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .stat-box { background: var(--b-dark); padding: 12px 20px; border-radius: 5px; border: 1px solid #333; font-weight: bold; min-width: 120px; }
+        .stat-box span { display: block; color: var(--b-yellow); font-size: 20px; margin-top: 5px; }
 
-        /* Order Form */
-        .order-section { padding: 60px 20px; background: var(--card); margin-top: 50px; }
-        .order-card { max-width: 400px; margin: 0 auto; background: var(--dark); padding: 30px; border-radius: 20px; border: 1px solid var(--red); }
-        input[type="text"], input[type="number"] { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: 1px solid #444; background: #2B3139; color: #fff; box-sizing: border-box; }
-        .buy-btn { width: 100%; padding: 18px; background: var(--red); color: #fff; border: none; font-weight: 900; border-radius: 10px; cursor: pointer; font-size: 18px; margin-top: 15px; }
+        .search-area { margin-bottom: 20px; }
+        .search-area input { padding: 12px; border-radius: 5px; border: 1px solid #444; background: #2B3139; color: #fff; width: 150px; }
+        .search-area button { padding: 12px 20px; background: var(--b-yellow); border: none; font-weight: bold; cursor: pointer; border-radius: 5px; margin-left: 5px; }
 
-        #legacy-tooltip { position: absolute; display: none; background: #000; color: var(--red); padding: 10px; border-radius: 5px; font-size: 12px; z-index: 2000; border: 1px solid var(--red); pointer-events: none; font-weight: bold; }
-        .wa-float { position: fixed; bottom: 20px; right: 20px; background: #25D366; color: #fff; padding: 15px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; z-index: 1000; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        .map-container { width: 95%; max-width: 1200px; margin: 0 auto; border: 2px solid #333; border-radius: 10px; background: #000; overflow: auto; height: 650px; position: relative; }
+        canvas { display: block; margin: 0 auto; cursor: crosshair; }
+
+        .order-box { background: var(--b-dark); padding: 40px 20px; margin-top: 50px; border-top: 2px solid var(--b-yellow); }
+        .form-card { max-width: 400px; margin: 0 auto; text-align: left; }
+        input[type="text"], input[type="number"] { width: 100%; padding: 15px; margin: 10px 0; background: #0B0E11; border: 1px solid #444; color: #fff; border-radius: 5px; box-sizing: border-box; }
+        .btn-submit { width: 100%; padding: 18px; background: var(--b-yellow); color: #000; font-weight: bold; border: none; cursor: pointer; border-radius: 5px; font-size: 16px; margin-top: 10px; }
+
+        #legacy-tooltip { position: absolute; display: none; background: rgba(0,0,0,0.9); color: var(--b-yellow); padding: 10px; border-radius: 5px; font-size: 12px; z-index: 2000; pointer-events: none; border: 1px solid var(--b-yellow); box-shadow: 0 0 10px rgba(252,213,53,0.3); }
+        .wa-float { position: fixed; bottom: 20px; right: 20px; background: #2ebd85; color: #fff; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        footer { padding: 50px; color: #5e6673; font-size: 12px; }
     </style>
 </head>
 <body>
 
 <div class="top-nav">
-    <button class="pill" style="background:var(--bkash)" onclick="copyText('01756206213')">বিকাশ: 01756206213</button>
-    <button class="pill" style="background:var(--rocket)" onclick="copyText('01756206213')">রকেট: 01756206213</button>
-    <div class="search-container">
-        <input type="number" id="searchID" placeholder="ID">
-        <button onclick="searchPlot()" style="background:none; border:none; color:var(--red); cursor:pointer;"><i class="fas fa-search"></i></button>
+    <div>
+        <button class="pill bkash" onclick="alert('bKash Personal: 01756206213')">BKASH: 01756206213</button>
+        <button class="pill rocket" onclick="alert('Rocket Personal: 01756206213')">ROCKET: 01756206213</button>
     </div>
-    <button class="pill" style="background:#5e6673" onclick="downloadFullMap()"><i class="fas fa-download"></i> MAP</button>
+    <div class="social-icons">
+        <button class="pill" onclick="downloadMap()"><i class="fas fa-camera"></i> DOWNLOAD MAP</button>
+    </div>
 </div>
 
 <div class="hero">
-    <h1 class="shimmer-title">JULY LEGACY MOVEMENT</h1>
-    <p class="tagline">"ইতিহাসের পাতায় আপনার স্মৃতি বেঁচে থাকুক চিরকাল"</p>
+    <h1 class="shimmer-title">THE JULY LEGACY</h1>
+    <p class="tagline">A DIGITAL MEMORIAL FOR THE BRAVE HEARTS. RECORD YOUR NAME FOREVER.</p>
     
-    <div class="stats">
-        <div class="stat-box">Capacity<span id="total-plots">1000</span></div>
-        <div class="stat-box">Occupied<span id="sold-count">0</span></div>
-        <div class="stat-box">Price<span>36 TK</span></div>
+    <div class="stats-row">
+        <div class="stat-box">TOTAL PLOTS<span id="total-plots">1000</span></div>
+        <div class="stat-box">CLAIMED<span id="sold-count">0</span></div>
+        <div class="stat-box">PRICE<span>36 BDT</span></div>
     </div>
 
-    <div class="map-wrapper" id="capture">
+    <div class="search-area">
+        <input type="number" id="plotSearch" placeholder="Plot ID">
+        <button onclick="searchAndHighlight()">SEARCH & HIGHLIGHT</button>
+    </div>
+
+    <div class="map-container" id="map-capture">
         <canvas id="mainCanvas"></canvas>
     </div>
 </div>
 
-<div class="order-section">
-    <div class="order-card">
-        <h2 style="color:var(--white)">বুকিং করুন এখনই</h2>
-        <p style="font-size:13px; color:#848e9c">বিকাশ/রকেটে ৩৬ টাকা পাঠিয়ে নিচের তথ্য দিন</p>
-        <input type="text" id="orderName" placeholder="আপনার নাম/ব্র্যান্ডের নাম">
-        <input type="number" id="orderPlot" placeholder="পছন্দের প্লট আইডি (যেমন: ১, ১০, ১০০)">
-        <button class="buy-btn" onclick="placeOrder()">SUBMIT REQUEST 🎉</button>
+<div class="order-box">
+    <div class="form-card">
+        <h2 style="color:var(--b-yellow); text-align:center;">RESERVE YOUR PLOT</h2>
+        <p style="text-align:center; color:#848e9c; font-size:13px;">Send 36 BDT via bKash/Rocket and submit details.</p>
+        <input type="text" id="orderName" placeholder="Your Brand/Personal Name">
+        <input type="number" id="orderID" placeholder="Plot Number (e.g. 1, 50, 999)">
+        <button class="btn-submit" onclick="submitRequest()">SUBMIT ORDER 🎉</button>
     </div>
 </div>
 
 <footer>
-    JULY LEGACY © 2026 | Developed by Kawsar Ahmed <br>
-    স্মৃতিস্বরূপ এই ম্যাপে ১০০০টি প্লট ফিলাপ হলে নিচে নতুন জায়গা তৈরি হয়।
+    THE JULY LEGACY &copy; 2026 | Developed by Kawsar Ahmed <br>
+    Limited to 1000 plots initially, expanding automatically as we grow.
 </footer>
 
 <a href="https://wa.me/8801756206213" class="wa-float"><i class="fab fa-whatsapp"></i> 24/7 SUPPORT</a>
@@ -114,32 +111,31 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-const dbLive = firebase.database().ref('royal_oasis_v2/live');
-const dbOrders = firebase.database().ref('royal_oasis_v2/orders');
+const dbLive = firebase.database().ref('pixels'); // Using original node
+const dbOrders = firebase.database().ref('orders');
 
-// --- CANVAS SYSTEM ---
 const cv = document.getElementById('mainCanvas'), ctx = cv.getContext('2d');
 const tooltip = document.getElementById('legacy-tooltip');
-const blockSize = 60; // সাইজ ২ গুণ করা হয়েছে
-const cols = 20;      // প্রতি লাইনে ২০টি প্লট
+const blockSize = 60; // ডবল সাইজ
+const cols = 20;      // প্রতি লাইনে ২০টি
 let pixels = {};
 let highlightedID = null;
 
 function render() {
     const totalOccupied = Object.keys(pixels).length;
     // ১০০০ ফিলাপ হলে পরবর্তী ১০০০ যুক্ত হওয়ার লজিক
-    const neededPlots = Math.ceil((totalOccupied + 1) / 1000) * 1000;
-    const rows = neededPlots / cols;
+    const currentMax = Math.ceil((totalOccupied + 1) / 1000) * 1000;
+    const rows = currentMax / cols;
 
     cv.width = cols * blockSize;
     cv.height = rows * blockSize;
-    document.getElementById('total-plots').innerText = neededPlots;
+    document.getElementById('total-plots').innerText = currentMax;
 
-    // ব্যাকগ্রাউন্ড
+    // Background
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, cv.width, cv.height);
 
-    // ঘরগুলো দৃশ্যমান করা (Grid lines)
+    // Grid (Exact copy style)
     ctx.strokeStyle = "#e0e0e0";
     ctx.lineWidth = 0.5;
     for (let i = 0; i <= cols; i++) {
@@ -149,19 +145,17 @@ function render() {
         ctx.beginPath(); ctx.moveTo(0, j * blockSize); ctx.lineTo(cv.width, j * blockSize); ctx.stroke();
     }
 
-    // ইমেজ রেন্ডারিং
+    // Plots Rendering
     Object.values(pixels).forEach(p => {
         const id = parseInt(p.plotID) - 1;
         const x = (id % cols) * blockSize;
         const y = Math.floor(id / cols) * blockSize;
 
-        // হাইলাইট লজিক: সার্চ করা আইডি বাদে বাকিগুলো ব্লার
         if (highlightedID && p.plotID != highlightedID) {
-            ctx.globalAlpha = 0.15;
+            ctx.globalAlpha = 0.2; // Blur effect for non-searched items
         } else if (highlightedID && p.plotID == highlightedID) {
             ctx.globalAlpha = 1.0;
-            // হাইলাইট করা প্লটের চারপাশে বর্ডার
-            ctx.strokeStyle = "red"; ctx.lineWidth = 3;
+            ctx.strokeStyle = "#FCD535"; ctx.lineWidth = 4;
             ctx.strokeRect(x, y, blockSize, blockSize);
         } else {
             ctx.globalAlpha = 1.0;
@@ -177,53 +171,48 @@ function render() {
     ctx.globalAlpha = 1.0;
 }
 
-// ডাটাবেস লিসেনার
 dbLive.on('value', s => {
     pixels = s.val() || {};
     document.getElementById('sold-count').innerText = Object.keys(pixels).length;
     render();
 });
 
-// অর্ডার ফাংশন
-function placeOrder() {
-    const name = document.getElementById('orderName').value;
-    const plot = document.getElementById('orderPlot').value;
-    if(!name || !plot) return alert("সব তথ্য পূরণ করুন!");
-
-    dbOrders.child(plot).set({ name, plotID: plot, status: 'pending' })
-    .then(() => {
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-        alert("আবেদন জমা হয়েছে! এখন হোয়াটসঅ্যাপে লোগো পাঠান।");
-        window.location.href = "https://wa.me/8801756206213?text=" + encodeURIComponent(`প্লট #${plot} বুকিং করেছি (${name} হিসেবে)`);
-    });
-}
-
-// সার্চ ফাংশন
-function searchPlot() {
-    const id = document.getElementById('searchID').value;
+function searchAndHighlight() {
+    const id = document.getElementById('plotSearch').value;
     if(!id) return;
     highlightedID = id;
     render();
     
-    // নির্দিষ্ট প্লটে স্ক্রল করা
+    // Smooth Scroll to Plot
     const targetY = Math.floor((id-1) / cols) * blockSize;
-    document.querySelector('.map-wrapper').scrollTo({ top: targetY - 100, behavior: 'smooth' });
+    document.querySelector('.map-container').scrollTo({ top: targetY - 100, behavior: 'smooth' });
     
-    // ১০ সেকেন্ড পর অটো রিসেট
-    setTimeout(() => { highlightedID = null; render(); }, 10000);
+    setTimeout(() => { highlightedID = null; render(); }, 15000); // 15s highlight
 }
 
-// ডাউনলোড ফাংশন
-function downloadFullMap() {
-    html2canvas(document.querySelector("#capture"), {useCORS: true}).then(canvas => {
+function submitRequest() {
+    const name = document.getElementById('orderName').value;
+    const pid = document.getElementById('orderID').value;
+    if(!name || !pid) return alert("Please fill all details!");
+
+    dbOrders.child(pid).set({ name, plotID: pid, status: 'pending' })
+    .then(() => {
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+        alert("Order Submitted! Contact WhatsApp with payment screenshot.");
+        window.location.href = "https://wa.me/8801756206213?text=Reserved Plot #" + pid;
+    });
+}
+
+function downloadMap() {
+    html2canvas(document.querySelector("#map-capture"), {useCORS: true}).then(canvas => {
         const link = document.createElement('a');
-        link.download = 'july-legacy-map.png';
+        link.download = 'july-legacy-high-quality.png';
         link.href = canvas.toDataURL("image/png", 1.0);
         link.click();
     });
 }
 
-// ইউজার ইন্টারঅ্যাকশন (মাউস মুভ ও ক্লিক)
+// Interactivity
 cv.addEventListener('mousemove', (e) => {
     const rect = cv.getBoundingClientRect();
     const x = (e.clientX - rect.left) / (rect.width / cv.width) * cv.width;
@@ -236,7 +225,7 @@ cv.addEventListener('mousemove', (e) => {
         if (x >= px && x <= px + blockSize && y >= py && y <= py + blockSize) {
             tooltip.style.display = 'block';
             tooltip.style.left = e.pageX + 10 + 'px'; tooltip.style.top = e.pageY + 10 + 'px';
-            tooltip.innerHTML = `Name: ${p.name}<br>Plot ID: #${p.plotID}`;
+            tooltip.innerHTML = `<strong>${p.name}</strong><br>PLOT ID: #${p.plotID}`;
             cv.style.cursor = 'pointer'; found = true;
         }
     });
@@ -256,12 +245,6 @@ cv.addEventListener('click', (e) => {
         }
     });
 });
-
-function copyText(val) {
-    navigator.clipboard.writeText(val);
-    alert("নম্বর কপি হয়েছে: " + val);
-}
 </script>
-
 </body>
 </html>
