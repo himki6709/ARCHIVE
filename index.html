@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>36th JULY LEGACY | অমরত্বের পথে আপনার স্থান</title>
+    <title>THE ETERNAL ARK | অমরত্বের পথে আপনার স্থান</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
@@ -12,90 +12,139 @@
 
     <style>
         :root { 
-            --gold: #FFD700; --red: #FF4D4D; --dark: #0B0E11; --card: #1E2329; 
-            --bkash: #e2136e; --rocket: #8c3494;
+            --primary-green: #1B4332; 
+            --light-bg: #F0F7F4; 
+            --accent-red: #D90429;
+            --white: #FFFFFF;
         }
 
         body { 
-            background: var(--dark); color: #fff; font-family: 'Segoe UI', Arial, sans-serif; 
-            margin: 0; text-align: center; overflow-x: hidden; 
+            background: var(--light-bg); 
+            color: var(--primary-green); 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            margin: 0; text-align: center; 
         }
 
-        /* UI Elements */
-        .top-nav { background: var(--card); padding: 15px; border-bottom: 2px solid var(--red); display: flex; justify-content: space-around; flex-wrap: wrap; gap: 10px; position: sticky; top: 0; z-index: 1000; }
-        .pill { padding: 8px 15px; border-radius: 5px; font-weight: bold; cursor: pointer; color: #fff; border: none; font-size: 12px; }
-        
-        .hero { padding: 60px 20px; background: linear-gradient(180deg, rgba(255,77,77,0.1) 0%, rgba(11,14,17,1) 100%); }
-        .shimmer-title { font-size: clamp(30px, 8vw, 50px); font-weight: 900; color: var(--red); text-shadow: 0 0 20px rgba(255,77,77,0.5); margin: 0; }
-        .tagline { font-size: 18px; color: var(--gold); margin: 15px 0; font-weight: bold; letter-spacing: 1px; }
-        .promo-text { color: #848e9c; max-width: 600px; margin: 0 auto 30px; font-size: 14px; line-height: 1.6; }
+        /* Header Style */
+        .header { padding: 60px 20px; }
+        .title { 
+            font-size: clamp(30px, 8vw, 55px); 
+            font-weight: 900; 
+            color: var(--primary-green); 
+            letter-spacing: 3px; 
+            margin: 0;
+            text-transform: uppercase;
+        }
+        .description { 
+            max-width: 600px; 
+            margin: 20px auto; 
+            font-size: 15px; 
+            line-height: 1.6; 
+            color: #555;
+        }
 
-        .stats { display: flex; justify-content: center; gap: 15px; margin-bottom: 40px; }
-        .stat-box { background: var(--card); border: 1px solid #333; padding: 15px; border-radius: 10px; min-width: 100px; }
-        .stat-box span { display: block; font-size: 20px; font-weight: bold; color: var(--red); }
+        /* Counter Box */
+        .impact-card {
+            background: var(--white);
+            max-width: 450px;
+            margin: 20px auto;
+            padding: 30px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .impact-label { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #888; }
+        .impact-number { font-size: 35px; font-weight: 900; margin: 10px 0; }
+        .impact-number span { color: var(--primary-green); }
 
-        /* Map System */
-        .map-wrapper { position: relative; width: 95%; max-width: 400px; margin: 0 auto; background: #fff; border: 4px solid var(--card); border-radius: 15px; height: 600px; overflow-y: auto; box-shadow: 0 0 40px rgba(0,0,0,0.8); }
+        /* Map Section */
+        .map-container {
+            width: 95%;
+            max-width: 400px; /* ক্যানভাস যেন স্মার্টফোনেও ঠিক থাকে */
+            margin: 30px auto;
+            background: #fff;
+            border: 2px solid #eee;
+            border-radius: 20px;
+            height: 600px;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
         canvas { display: block; margin: 0 auto; cursor: crosshair; }
 
-        /* Order Box */
-        .order-section { padding: 60px 20px; background: var(--card); margin-top: 50px; }
-        .order-card { max-width: 400px; margin: 0 auto; background: var(--dark); padding: 30px; border-radius: 20px; border: 1px solid var(--red); }
-        input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: 1px solid #444; background: #2B3139; color: #fff; box-sizing: border-box; }
-        .buy-btn { width: 100%; padding: 18px; background: var(--red); color: #fff; border: none; font-weight: 900; border-radius: 10px; cursor: pointer; font-size: 18px; transition: 0.3s; margin-top: 10px; }
-        .buy-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--red); }
+        /* Order Section */
+        .order-box {
+            background: var(--primary-green);
+            color: white;
+            padding: 40px 20px;
+            margin-top: 50px;
+        }
+        .form-card {
+            max-width: 350px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: none;
+            box-sizing: border-box;
+            outline: none;
+        }
+        .btn-order {
+            width: 100%;
+            padding: 15px;
+            background: var(--white);
+            color: var(--primary-green);
+            border: none;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
 
-        #legacy-tooltip { position: absolute; display: none; background: #000; color: var(--gold); padding: 10px; border-radius: 5px; font-size: 12px; z-index: 2000; border: 1px solid var(--gold); pointer-events: none; }
-        .wa-float { position: fixed; bottom: 20px; right: 20px; background: #25D366; color: #fff; padding: 15px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; box-shadow: 0 10px 20px rgba(0,0,0,0.3); z-index: 1000; }
-        
-        footer { padding: 40px; color: #555; font-size: 12px; }
+        #legacy-tooltip {
+            position: absolute; display: none; background: #000; color: #fff;
+            padding: 8px 12px; border-radius: 5px; font-size: 12px; z-index: 1000;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
 
-<div class="top-nav">
-    <button class="pill" style="background:var(--bkash)" onclick="alert('বিকাশ নম্বর: ০১৭৫৬২০৬২১৩ (সেন্ড মানি)')">bKash: 01756206213</button>
-    <button class="pill" style="background:var(--rocket)" onclick="alert('রকেট নম্বর: ০১৭৫৬২০৬২১৩ (সেন্ড মানি)')">Rocket: 01756206213</button>
-    <div style="background:#2B3139; padding:5px; border-radius:5px;">
-        <input type="number" id="sID" placeholder="ID" style="width:60px; padding:5px; margin:0; border:none; background:transparent; color:#fff;">
-        <button onclick="searchPlot()" style="background:none; border:none; color:var(--red); cursor:pointer;"><i class="fas fa-search"></i></button>
-    </div>
-</div>
-
-<div class="hero">
-    <h1 class="shimmer-title">36th JULY LEGACY</h1>
-    <p class="tagline">"ইতিহাসের পাতায় আপনার নাম কি বেঁচে থাকবে?"</p>
-    <p class="promo-text">
-        এটি সাধারণ কোনো ম্যাপ নয়, এটি একটি ডিজিটাল মহাকাব্য। মাত্র ৩৬ টাকায় আপনার ব্র্যান্ড বা নিজের নাম চিরস্থায়ী করুন এই ঐতিহাসিক মেমোরিয়ালে। প্লট সংখ্যা সীমিত, স্থান শেষ হওয়ার আগেই নিজের জায়গাটি বুঝে নিন।
+<div class="header">
+    <h1 class="title">THE ETERNAL ARK</h1>
+    <p class="description">
+        অক্সিজেন শিল্ড পুনরুদ্ধারের একটি বিশ্বব্যাপী উদ্যোগ। ইতিহাসের পাতায় আপনার নাম খোদাই করুন এবং ভবিষ্যৎ প্রজন্মের জন্য একটি শ্বাসযোগ্য পৃথিবী নিশ্চিত করুন।
     </p>
 
-    <div class="stats">
-        <div class="stat-box">Capacity<span id="total-plots">36</span></div>
-        <div class="stat-box">Occupied<span id="sold-count">0</span></div>
-        <div class="stat-box">Price<span>36 TK</span></div>
-    </div>
-
-    <div class="map-wrapper">
-        <canvas id="mainCanvas"></canvas>
+    <div class="impact-card">
+        <div class="impact-label">TOTAL IMPACT PROGRESS</div>
+        <div class="impact-number"><span id="sold-count">0</span> / <span id="total-plots">36</span></div>
+        <button class="btn-order" style="background:var(--primary-green); color:white; width:250px;">
+            DONATE VIA PAYONEER (36 TK)
+        </button>
     </div>
 </div>
 
-<div class="order-section" id="order">
-    <div class="order-card">
-        <h2 style="color:var(--gold)">বুকিং করুন এখনই</h2>
-        <p style="font-size:12px; color:#848e9c">পেমেন্ট করার পর নিচের তথ্যগুলো পূরণ করুন</p>
-        <input type="text" id="orderName" placeholder="আপনার নাম অথবা ব্র্যান্ডের নাম">
-        <input type="number" id="orderPlot" placeholder="পছন্দের প্লট আইডি (যেমন: ১, ২, বা ৩৬)">
-        <button class="buy-btn" onclick="placeOrder()">PLACE ORDER 🎉</button>
+<div class="map-container">
+    <canvas id="mainCanvas"></canvas>
+</div>
+
+<div class="order-box">
+    <div class="form-card">
+        <h3>RESERVE YOUR PLOT</h3>
+        <p style="font-size: 13px; opacity: 0.8;">প্রতিটি প্লটের মূল্য মাত্র ৩৬ টাকা</p>
+        <input type="text" id="uName" placeholder="আপনার নাম/ব্র্যান্ড">
+        <input type="number" id="uPlot" placeholder="প্লট আইডি (১-৩৬...)">
+        <button class="btn-order" onclick="reservePlot()">SUBMIT NOW</button>
     </div>
 </div>
 
-<footer>
-    36th JULY LEGACY © 2026 | Developed by Kawsar Ahmed <br>
-    এই ম্যাপটি স্বয়ংক্রিয়ভাবে ৩৬টি প্লট পূর্ণ হওয়ার পর নিচে বৃদ্ধি পায়।
-</footer>
-
-<a href="https://wa.me/8801756206213" class="wa-float"><i class="fab fa-whatsapp"></i> 24/7 SUPPORT</a>
 <div id="legacy-tooltip"></div>
 
 <script>
@@ -111,32 +160,32 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-const dbLive = firebase.database().ref('royal_oasis_v2/live');
-const dbOrders = firebase.database().ref('royal_oasis_v2/orders');
+const db = firebase.database().ref('royal_oasis_v2/live');
 
-// --- CANVAS SYSTEM ---
 const cv = document.getElementById('mainCanvas'), ctx = cv.getContext('2d');
 const tooltip = document.getElementById('legacy-tooltip');
-const blockSize = 60; // আপনার নির্দেশিত সাইজ
-const cols = 6;       // লম্বালম্বি গ্রিড
+
+// আপনার নির্দেশনা অনুযায়ী ২ গুণ বড় ব্লক সাইজ (৬০ পিক্সেল)
+const blockSize = 60; 
+const cols = 6; // ৬ কলামে ক্যানভাসটি লম্বালম্বি হবে
 let pixels = {};
-let highlightedID = null;
 
 function render() {
     const totalOccupied = Object.keys(pixels).length;
-    const neededPlots = Math.ceil((totalOccupied + 1) / 36) * 36;
-    const rows = neededPlots / cols;
+    // ৩৬টি ফিলাপ হলে পরবর্তী ৩৬টি যুক্ত হবে
+    const currentMax = Math.ceil((totalOccupied + 1) / 36) * 36;
+    const rows = currentMax / cols;
 
     cv.width = cols * blockSize;
     cv.height = rows * blockSize;
-    document.getElementById('total-plots').innerText = neededPlots;
+    document.getElementById('total-plots').innerText = currentMax;
 
-    // Draw Background
+    // ক্লিয়ার এবং গ্রিড ড্রয়িং
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, cv.width, cv.height);
 
-    // Draw Clear Grid (ঘরগুলো যেন দেখা যায়)
-    ctx.strokeStyle = "#CCCCCC";
+    // ঘরগুলো দৃশ্যমান করা
+    ctx.strokeStyle = "#E0E0E0"; 
     ctx.lineWidth = 1;
     for (let i = 0; i <= cols; i++) {
         ctx.beginPath(); ctx.moveTo(i * blockSize, 0); ctx.lineTo(i * blockSize, cv.height); ctx.stroke();
@@ -145,14 +194,11 @@ function render() {
         ctx.beginPath(); ctx.moveTo(0, j * blockSize); ctx.lineTo(cv.width, j * blockSize); ctx.stroke();
     }
 
-    // Render Logos
+    // ইমেজ রেন্ডারিং
     Object.values(pixels).forEach(p => {
         const id = parseInt(p.plotID) - 1;
         const x = (id % cols) * blockSize;
         const y = Math.floor(id / cols) * blockSize;
-
-        if (highlightedID && p.plotID != highlightedID) ctx.globalAlpha = 0.1;
-        else ctx.globalAlpha = 1.0;
 
         if (p.imageUrl) {
             const img = new Image();
@@ -161,40 +207,28 @@ function render() {
             img.onload = () => ctx.drawImage(img, x, y, blockSize, blockSize);
         }
     });
-    ctx.globalAlpha = 1.0;
 }
 
-// Data Listener
-dbLive.on('value', s => {
+db.on('value', s => {
     pixels = s.val() || {};
     document.getElementById('sold-count').innerText = Object.keys(pixels).length;
     render();
 });
 
-// Order System
-function placeOrder() {
-    const name = document.getElementById('orderName').value;
-    const plot = document.getElementById('orderPlot').value;
-    if(!name || !plot) return alert("দয়া করে নাম এবং প্লট আইডি দিন।");
+function reservePlot() {
+    const name = document.getElementById('uName').value;
+    const plot = document.getElementById('uPlot').value;
+    if(!name || !plot) return alert("তথ্য পূরণ করুন!");
 
-    dbOrders.child(plot).set({ name, plotID: plot, status: 'pending' })
+    firebase.database().ref('royal_oasis_v2/orders/' + plot).set({ name, plotID: plot })
     .then(() => {
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-        alert("আবেদন সফল! এখন হোয়াটসঅ্যাপে পেমেন্ট স্ক্রিনশট ও লোগো পাঠান।");
-        window.location.href = "https://wa.me/8801756206213?text=" + encodeURIComponent(`Hello, I reserved Plot #${plot} for ${name}.`);
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        alert("আবেদন সফল! হোয়াটসঅ্যাপে যোগাযোগ করুন।");
+        window.location.href = "https://wa.me/8801756206213";
     });
 }
 
-// Search Feature
-function searchPlot() {
-    const id = document.getElementById('sID').value;
-    if(!id) return;
-    highlightedID = id;
-    render();
-    setTimeout(() => { highlightedID = null; render(); }, 15000);
-}
-
-// Interaction
+// মাউস টুলটিপ
 cv.addEventListener('mousemove', (e) => {
     const rect = cv.getBoundingClientRect();
     const x = (e.clientX - rect.left) / (rect.width / cv.width) * cv.width;
@@ -206,13 +240,14 @@ cv.addEventListener('mousemove', (e) => {
         const px = (id % cols) * blockSize, py = Math.floor(id / cols) * blockSize;
         if (x >= px && x <= px + blockSize && y >= py && y <= py + blockSize) {
             tooltip.style.display = 'block';
-            tooltip.style.left = e.pageX + 'px'; tooltip.style.top = e.pageY + 'px';
-            tooltip.innerHTML = `<strong>${p.name}</strong><br>Legacy Plot #${p.plotID}`;
+            tooltip.style.left = e.pageX + 15 + 'px'; tooltip.style.top = e.pageY + 15 + 'px';
+            tooltip.innerHTML = `<strong>${p.name}</strong><br>Plot #${p.plotID}`;
             found = true;
         }
     });
     if (!found) tooltip.style.display = 'none';
 });
 </script>
+
 </body>
 </html>
