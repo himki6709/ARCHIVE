@@ -3,98 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE JULY LEGACY | GLOBAL CREATOR HOMEPAGE</title>
+    <title>THE JULY LEGACY | OFFICIAL</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
-        /* Exact Design Copy from your provided files */
-        :root { --b-yellow: #FCD535; --b-dark: #1E2329; --b-bg: #0B0E11; --red-accent: #FF4D4D; }
+        /* 100% Exact Copy of Your Original Design */
+        :root { --b-yellow: #FCD535; --b-dark: #1E2329; --b-bg: #0B0E11; }
         
         body { background: var(--b-bg); color: #EAECEF; font-family: sans-serif; margin: 0; text-align: center; overflow-x: hidden; }
         
         .top-nav { display: flex; justify-content: space-between; padding: 15px 5%; background: var(--b-dark); border-bottom: 1px solid #333; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .pill { padding: 8px 15px; border: 1px solid var(--b-yellow); color: var(--b-yellow); border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold; background: transparent; }
         
-        .pill { padding: 8px 15px; border: 1px solid var(--b-yellow); color: var(--b-yellow); border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold; background: transparent; transition: 0.3s; }
-        .pill:hover { background: var(--b-yellow); color: #000; }
-        .pill.bkash { border-color: #e2136e; color: #e2136e; }
-        .pill.rocket { border-color: #8c3494; color: #8c3494; }
-
-        .shimmer-title { font-size: clamp(24px, 6vw, 42px); font-weight: 900; color: var(--b-yellow); margin-top: 30px; margin-bottom: 5px; text-transform: uppercase; }
-        .tagline { color: #848e9c; font-size: 14px; margin-bottom: 30px; letter-spacing: 1px; }
+        .hero { padding: 40px 20px; }
+        .shimmer-title { font-size: 38px; font-weight: 900; color: var(--b-yellow); margin-bottom: 5px; text-transform: uppercase; }
+        .tagline { color: #848e9c; font-size: 14px; margin-bottom: 30px; }
         
-        .stats-row { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
-        .stat-box { background: var(--b-dark); padding: 12px 20px; border-radius: 5px; border: 1px solid #333; font-weight: bold; min-width: 120px; }
+        .stats-row { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; }
+        .stat-box { background: var(--b-dark); padding: 12px 20px; border-radius: 5px; border: 1px solid #333; font-weight: bold; min-width: 100px; }
         .stat-box span { display: block; color: var(--b-yellow); font-size: 20px; margin-top: 5px; }
 
-        .search-area { margin-bottom: 20px; }
-        .search-area input { padding: 12px; border-radius: 5px; border: 1px solid #444; background: #2B3139; color: #fff; width: 150px; }
-        .search-area button { padding: 12px 20px; background: var(--b-yellow); border: none; font-weight: bold; cursor: pointer; border-radius: 5px; margin-left: 5px; }
+        .cta-gold { background: var(--b-yellow); color: #000; padding: 18px 40px; border-radius: 8px; font-weight: bold; text-decoration: none; display: inline-block; font-size: 18px; transition: 0.3s; border: none; cursor: pointer; }
+        .cta-gold:hover { transform: scale(1.05); }
 
-        .map-container { width: 95%; max-width: 1200px; margin: 0 auto; border: 2px solid #333; border-radius: 10px; background: #000; overflow: auto; height: 650px; position: relative; }
-        canvas { display: block; margin: 0 auto; cursor: crosshair; }
+        /* Map Container - Only Vertical Scroll */
+        .map-container { 
+            width: 100%; 
+            max-width: 400px; /* Fixed width so it doesn't move left-right */
+            margin: 30px auto; 
+            border: 2px solid #333; 
+            border-radius: 10px; 
+            background: #fff; 
+            height: 600px; 
+            overflow-y: auto; /* Scroll only vertically */
+            overflow-x: hidden; 
+        }
+        canvas { display: block; margin: 0 auto; }
 
-        .order-box { background: var(--b-dark); padding: 40px 20px; margin-top: 50px; border-top: 2px solid var(--b-yellow); }
-        .form-card { max-width: 400px; margin: 0 auto; text-align: left; }
-        input[type="text"], input[type="number"] { width: 100%; padding: 15px; margin: 10px 0; background: #0B0E11; border: 1px solid #444; color: #fff; border-radius: 5px; box-sizing: border-box; }
-        .btn-submit { width: 100%; padding: 18px; background: var(--b-yellow); color: #000; font-weight: bold; border: none; cursor: pointer; border-radius: 5px; font-size: 16px; margin-top: 10px; }
+        /* Custom Popup/Modal Style */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background: var(--b-dark); border: 2px solid var(--b-yellow); padding: 30px; border-radius: 15px; max-width: 400px; text-align: left; position: relative; }
+        .modal-content h3 { color: var(--b-yellow); margin-top: 0; text-align: center; }
+        .modal-content ul { padding-left: 20px; color: #ccc; font-size: 14px; }
+        .modal-content li { margin-bottom: 10px; }
+        .close-btn { background: var(--b-yellow); color: #000; border: none; padding: 10px; width: 100%; font-weight: bold; border-radius: 5px; cursor: pointer; margin-top: 15px; }
 
-        #legacy-tooltip { position: absolute; display: none; background: rgba(0,0,0,0.9); color: var(--b-yellow); padding: 10px; border-radius: 5px; font-size: 12px; z-index: 2000; pointer-events: none; border: 1px solid var(--b-yellow); box-shadow: 0 0 10px rgba(252,213,53,0.3); }
-        .wa-float { position: fixed; bottom: 20px; right: 20px; background: #2ebd85; color: #fff; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        footer { padding: 50px; color: #5e6673; font-size: 12px; }
+        #legacy-tooltip { position: absolute; display: none; background: rgba(0,0,0,0.9); color: var(--b-yellow); padding: 8px; border-radius: 4px; font-size: 12px; z-index: 10001; pointer-events: none; border: 1px solid var(--b-yellow); }
+        .wa-float { position: fixed; bottom: 20px; right: 20px; background: #2ebd85; color: #fff; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; z-index: 1000; }
+        footer { padding: 40px; color: #5e6673; font-size: 12px; }
     </style>
 </head>
 <body>
 
 <div class="top-nav">
-    <div>
-        <button class="pill bkash" onclick="alert('bKash Personal: 01756206213')">BKASH: 01756206213</button>
-        <button class="pill rocket" onclick="alert('Rocket Personal: 01756206213')">ROCKET: 01756206213</button>
+    <div class="payment-pills">
+        <div class="pill" onclick="alert('bKash Personal: 01756206213')">BKASH: 01756206213</div>
     </div>
     <div class="social-icons">
-        <button class="pill" onclick="downloadMap()"><i class="fas fa-camera"></i> DOWNLOAD MAP</button>
+        <div class="pill" style="border-color:#8c3494; color:#8c3494" onclick="alert('Rocket Personal: 01756206213')">ROCKET: 01756206213</div>
     </div>
 </div>
 
 <div class="hero">
     <h1 class="shimmer-title">THE JULY LEGACY</h1>
-    <p class="tagline">A DIGITAL MEMORIAL FOR THE BRAVE HEARTS. RECORD YOUR NAME FOREVER.</p>
+    <p class="tagline">A LIMITED DIGITAL SPACE FOR BRAVE HEARTS.</p>
     
     <div class="stats-row">
-        <div class="stat-box">TOTAL PLOTS<span id="total-plots">1000</span></div>
+        <div class="stat-box">TOTAL PLOTS<span id="total-plots">36</span></div>
         <div class="stat-box">CLAIMED<span id="sold-count">0</span></div>
         <div class="stat-box">PRICE<span>36 BDT</span></div>
     </div>
 
-    <div class="search-area">
-        <input type="number" id="plotSearch" placeholder="Plot ID">
-        <button onclick="searchAndHighlight()">SEARCH & HIGHLIGHT</button>
-    </div>
+    <button class="cta-gold" onclick="openOrderForm()">RESERVE MY PLOT (36 TK)</button>
+</div>
 
-    <div class="map-container" id="map-capture">
-        <canvas id="mainCanvas"></canvas>
+<div class="map-container">
+    <canvas id="mainCanvas"></canvas>
+</div>
+
+<div class="modal" id="orderModal">
+    <div class="modal-content">
+        <h3>RESERVE PLOT</h3>
+        <input type="text" id="custName" placeholder="Your Name/Brand" style="width:100%; padding:12px; margin-bottom:10px; border-radius:5px; border:1px solid #444; background:#0B0E11; color:#fff;">
+        <input type="number" id="custPlot" placeholder="Plot Number (1, 2, 36...)" style="width:100%; padding:12px; margin-bottom:15px; border-radius:5px; border:1px solid #444; background:#0B0E11; color:#fff;">
+        <button class="close-btn" onclick="submitAndShowInfo()">SUBMIT REQUEST</button>
+        <button onclick="document.getElementById('orderModal').style.display='none'" style="background:transparent; color:#888; border:none; width:100%; margin-top:10px; cursor:pointer;">Cancel</button>
     </div>
 </div>
 
-<div class="order-box">
-    <div class="form-card">
-        <h2 style="color:var(--b-yellow); text-align:center;">RESERVE YOUR PLOT</h2>
-        <p style="text-align:center; color:#848e9c; font-size:13px;">Send 36 BDT via bKash/Rocket and submit details.</p>
-        <input type="text" id="orderName" placeholder="Your Brand/Personal Name">
-        <input type="number" id="orderID" placeholder="Plot Number (e.g. 1, 50, 999)">
-        <button class="btn-submit" onclick="submitRequest()">SUBMIT ORDER 🎉</button>
+<div class="modal" id="infoModal">
+    <div class="modal-content">
+        <h3 style="color:#2ebd85">REQUEST SENT! 🎉</h3>
+        <p style="font-size:13px; text-align:center;">To activate your plot, please send the following to our Support WhatsApp:</p>
+        <ul>
+            <li>1. Payment Screenshot (36 BDT).</li>
+            <li>2. Your Reserved Plot ID.</li>
+            <li>3. Your High-Quality Square Logo.</li>
+            <li>4. Target Website/Social Link.</li>
+        </ul>
+        <button class="close-btn" onclick="goToWA()">CONTACT SUPPORT NOW</button>
     </div>
 </div>
 
-<footer>
-    THE JULY LEGACY &copy; 2026 | Developed by Kawsar Ahmed <br>
-    Limited to 1000 plots initially, expanding automatically as we grow.
-</footer>
-
+<footer>THE JULY LEGACY © 2026 | ALL RIGHTS RESERVED</footer>
 <a href="https://wa.me/8801756206213" class="wa-float"><i class="fab fa-whatsapp"></i> 24/7 SUPPORT</a>
 <div id="legacy-tooltip"></div>
 
@@ -111,33 +126,31 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-const dbLive = firebase.database().ref('pixels'); // Using original node
-const dbOrders = firebase.database().ref('orders');
+const db = firebase.database();
 
 const cv = document.getElementById('mainCanvas'), ctx = cv.getContext('2d');
 const tooltip = document.getElementById('legacy-tooltip');
-const blockSize = 60; // ডবল সাইজ
-const cols = 20;      // প্রতি লাইনে ২০টি
+const blockSize = 60; // 2X Size as requested
+const cols = 6;      // Fixed 6 columns for 400px width
 let pixels = {};
-let highlightedID = null;
 
 function render() {
     const totalOccupied = Object.keys(pixels).length;
-    // ১০০০ ফিলাপ হলে পরবর্তী ১০০০ যুক্ত হওয়ার লজিক
-    const currentMax = Math.ceil((totalOccupied + 1) / 1000) * 1000;
-    const rows = currentMax / cols;
+    // Step by 36: Increases every time 36 are filled
+    const currentLimit = Math.ceil((totalOccupied + 1) / 36) * 36;
+    const rows = currentLimit / cols;
 
     cv.width = cols * blockSize;
     cv.height = rows * blockSize;
-    document.getElementById('total-plots').innerText = currentMax;
+    document.getElementById('total-plots').innerText = currentLimit;
 
-    // Background
+    // Draw White Background
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, cv.width, cv.height);
 
-    // Grid (Exact copy style)
+    // Draw Grid Lines
     ctx.strokeStyle = "#e0e0e0";
-    ctx.lineWidth = 0.5;
+    ctx.lineWidth = 1;
     for (let i = 0; i <= cols; i++) {
         ctx.beginPath(); ctx.moveTo(i * blockSize, 0); ctx.lineTo(i * blockSize, cv.height); ctx.stroke();
     }
@@ -145,21 +158,11 @@ function render() {
         ctx.beginPath(); ctx.moveTo(0, j * blockSize); ctx.lineTo(cv.width, j * blockSize); ctx.stroke();
     }
 
-    // Plots Rendering
+    // Render Logos
     Object.values(pixels).forEach(p => {
         const id = parseInt(p.plotID) - 1;
         const x = (id % cols) * blockSize;
         const y = Math.floor(id / cols) * blockSize;
-
-        if (highlightedID && p.plotID != highlightedID) {
-            ctx.globalAlpha = 0.2; // Blur effect for non-searched items
-        } else if (highlightedID && p.plotID == highlightedID) {
-            ctx.globalAlpha = 1.0;
-            ctx.strokeStyle = "#FCD535"; ctx.lineWidth = 4;
-            ctx.strokeRect(x, y, blockSize, blockSize);
-        } else {
-            ctx.globalAlpha = 1.0;
-        }
 
         if (p.imageUrl) {
             const img = new Image();
@@ -168,51 +171,35 @@ function render() {
             img.onload = () => ctx.drawImage(img, x, y, blockSize, blockSize);
         }
     });
-    ctx.globalAlpha = 1.0;
 }
 
-dbLive.on('value', s => {
+// Listen to Data
+db.ref('pixels').on('value', s => {
     pixels = s.val() || {};
     document.getElementById('sold-count').innerText = Object.keys(pixels).length;
     render();
 });
 
-function searchAndHighlight() {
-    const id = document.getElementById('plotSearch').value;
-    if(!id) return;
-    highlightedID = id;
-    render();
-    
-    // Smooth Scroll to Plot
-    const targetY = Math.floor((id-1) / cols) * blockSize;
-    document.querySelector('.map-container').scrollTo({ top: targetY - 100, behavior: 'smooth' });
-    
-    setTimeout(() => { highlightedID = null; render(); }, 15000); // 15s highlight
-}
+// Modal Controls
+function openOrderForm() { document.getElementById('orderModal').style.display = 'flex'; }
 
-function submitRequest() {
-    const name = document.getElementById('orderName').value;
-    const pid = document.getElementById('orderID').value;
-    if(!name || !pid) return alert("Please fill all details!");
+function submitAndShowInfo() {
+    const name = document.getElementById('custName').value;
+    const pid = document.getElementById('custPlot').value;
+    if(!name || !pid) return alert("Please fill details!");
 
-    dbOrders.child(pid).set({ name, plotID: pid, status: 'pending' })
-    .then(() => {
+    db.ref('orders/' + pid).set({ name, plotID: pid, status: 'pending' }).then(() => {
         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-        alert("Order Submitted! Contact WhatsApp with payment screenshot.");
-        window.location.href = "https://wa.me/8801756206213?text=Reserved Plot #" + pid;
+        document.getElementById('orderModal').style.display = 'none';
+        document.getElementById('infoModal').style.display = 'flex';
     });
 }
 
-function downloadMap() {
-    html2canvas(document.querySelector("#map-capture"), {useCORS: true}).then(canvas => {
-        const link = document.createElement('a');
-        link.download = 'july-legacy-high-quality.png';
-        link.href = canvas.toDataURL("image/png", 1.0);
-        link.click();
-    });
+function goToWA() {
+    window.location.href = "https://wa.me/8801756206213?text=Hi, I reserved plot #" + document.getElementById('custPlot').value;
 }
 
-// Interactivity
+// Tooltip on Mouse Move
 cv.addEventListener('mousemove', (e) => {
     const rect = cv.getBoundingClientRect();
     const x = (e.clientX - rect.left) / (rect.width / cv.width) * cv.width;
@@ -225,13 +212,14 @@ cv.addEventListener('mousemove', (e) => {
         if (x >= px && x <= px + blockSize && y >= py && y <= py + blockSize) {
             tooltip.style.display = 'block';
             tooltip.style.left = e.pageX + 10 + 'px'; tooltip.style.top = e.pageY + 10 + 'px';
-            tooltip.innerHTML = `<strong>${p.name}</strong><br>PLOT ID: #${p.plotID}`;
+            tooltip.innerHTML = `<strong>${p.name}</strong><br>Plot #${p.plotID}`;
             cv.style.cursor = 'pointer'; found = true;
         }
     });
     if (!found) { tooltip.style.display = 'none'; cv.style.cursor = 'default'; }
 });
 
+// Click to visit link
 cv.addEventListener('click', (e) => {
     const rect = cv.getBoundingClientRect();
     const x = (e.clientX - rect.left) / (rect.width / cv.width) * cv.width;
