@@ -3,172 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RESERVE PLOT | THE ETERNAL ARK</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        :root { --bg: #030303; --gold: #D4AF37; --border: rgba(212, 175, 55, 0.2); }
-        body { background: var(--bg); color: #fff; font-family: 'Montserrat', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        
-        .order-card { 
-            background: #080808; border: 1px solid var(--gold); padding: 40px; 
-            border-radius: 15px; width: 100%; max-width: 450px; text-align: center;
-            box-shadow: 0 0 40px rgba(0,0,0,1);
-        }
-
-        .price-tag { 
-            background: rgba(212, 175, 55, 0.1); border: 1px dashed var(--gold);
-            padding: 15px; border-radius: 8px; margin-bottom: 25px; font-size: 13px;
-        }
-        .old-price { text-decoration: line-through; color: #ff4444; margin-right: 10px; display: none; }
-        .new-price { color: #25D366; font-weight: 900; font-size: 18px; }
-
-        .input-group { margin-bottom: 20px; text-align: left; }
-        label { font-size: 10px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 8px; }
-        
-        input { 
-            width: 100%; padding: 15px; background: #000; border: 1px solid #333; 
-            color: #fff; border-radius: 5px; font-size: 14px; transition: 0.3s;
-        }
-        input:focus { border-color: var(--gold); }
-
-        .btn-submit { 
-            width: 100%; padding: 18px; background: var(--gold); color: #000; 
-            border: none; border-radius: 5px; font-family: 'Cinzel'; font-weight: 900; 
-            cursor: pointer; font-size: 14px; margin-top: 10px;
-        }
-        .btn-submit:hover { background: #fff; box-shadow: 0 0 20px #fff; }
-
-        .back-link { display: block; margin-top: 20px; color: #666; text-decoration: none; font-size: 12px; }
-        
-        /* Popup Success Style */
-        #success-pop { 
-            display: none; position: fixed; inset: 0; background: #D4AF37; 
-            flex-direction: column; justify-content: center; align-items: center; 
-            color: #000; text-align: center; z-index: 10000;
-        }
-    </style>
+    <title>36th JULY LEGACY | OFFICIAL MEMORIAL</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 </head>
 <body>
 
-    <div class="order-card" id="form-box">
-        <h2 style="font-family:'Cinzel'; color:var(--gold); margin-bottom: 10px;">RESERVE YOUR PLOT</h2>
-        
-        <div class="price-tag">
-            <span id="oldP" class="old-price">$1.00</span>
-            Current Price: <span class="new-price" id="finalPrice">$1.00</span>
-        </div>
+<div class="top-nav">
+    <div class="payment-pills">
+        <div class="pill bkash" onclick="copyVal('01756206213')">bKash: 01756206213</div>
+        <div class="pill rocket" onclick="copyVal('01756206213')">Rocket: 01756206213</div>
+    </div>
+    <div class="search-bar">
+        <input type="number" id="plotSearch" placeholder="Search Plot ID (e.g. 36)">
+        <button onclick="searchPlot()"><i class="fas fa-search"></i></button>
+    </div>
+    <div class="social-icons">
+        <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+    </div>
+</div>
 
-        <div class="input-group">
-            <label>Full Name</label>
-            <input type="text" id="custName" placeholder="Enter your name" maxlength="30">
-        </div>
-
-        <div class="input-group">
-            <label>WhatsApp Number</label>
-            <input type="tel" id="custWhatsApp" placeholder="e.g. 017XXXXXXXX" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-        </div>
-
-        <div class="input-group">
-            <label>Plot ID (1 - 1000)</label>
-            <input type="number" id="plotID" placeholder="e.g. 55">
-        </div>
-
-        <div class="input-group">
-            <label>Referral Code (Optional)</label>
-            <input type="text" id="refCode" placeholder="12-digit code" oninput="checkReferral()">
-        </div>
-
-        <button class="btn-submit" onclick="submitOrder()">SUBMIT REQUEST</button>
-        <a href="index.html" class="back-link">← Back to Homepage</a>
+<div class="hero">
+    <h1 class="shimmer-title">36th JULY LEGACY</h1>
+    <p class="tagline">AN UNENDING DIGITAL MEMORIAL. HONORING EVERY BRAVE SOUL.</p>
+    
+    <div class="stats-row">
+        <div class="stat-box">CURRENT CAPACITY: <span id="total-plots">36</span></div>
+        <div class="stat-box sold">OCCUPIED: <span id="sold-count">0</span></div>
+        <div class="stat-box rem">PRICE: 36 BDT</div>
     </div>
 
-    <div id="success-pop">
-        <i class="fa-solid fa-circle-check" style="font-size: 80px; margin-bottom: 20px;"></i>
-        <h1 style="font-family:'Cinzel'; font-size: 40px; margin-bottom: 10px;">EXCELLENT!</h1>
-        <p id="congratsMsg" style="font-weight: bold; font-size: 18px; margin-bottom: 30px;"></p>
-        
-        <div style="background: rgba(0,0,0,0.1); padding: 20px; border-radius: 10px; width: 80%; max-width: 400px; text-align: left; margin-bottom: 30px;">
-            <p style="font-size: 13px; color: #000;"><strong>Next Steps:</strong></p>
-            <ul style="font-size: 12px; line-height: 1.8; margin-top: 10px;">
-                <li>1. Send Payment Screenshot to Support.</li>
-                <li>2. Provide your Brand Logo URL.</li>
-                <li>3. Provide your Target Website Link.</li>
-            </ul>
-        </div>
-
-        <button onclick="sendWhatsApp()" class="btn-submit" style="background:#000; color:#fff; width: 250px;">SEND MESSAGE</button>
-        <a href="index.html" style="margin-top: 20px; color: #000; font-weight: bold; text-decoration: none;">BACK TO CANVAS</a>
+    <div class="actions">
+        <a href="order.html" class="cta-red">CLAIM MY LEGACY (36 TK)</a>
+        <button onclick="downloadCanvas()" class="cta-outline"><i class="fas fa-download"></i> DOWNLOAD MAP</button>
     </div>
+</div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+<div class="map-container" id="mapSection">
+    <div id="viewport">
+        <div id="mover">
+            <canvas id="mainCanvas"></canvas>
+        </div>
+    </div>
+</div>
 
-    <script>
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
-            authDomain: "the-5k-elite-legacy.firebaseapp.com",
-            databaseURL: "https://the-5k-elite-legacy-default-rtdb.firebaseio.com",
-            projectId: "the-5k-elite-legacy",
-            storageBucket: "the-5k-elite-legacy.firebasestorage.app",
-            messagingSenderId: "440824313752",
-            appId: "1:440824313752:web:2c93344dcfe2ba0a4c5ded"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+<div class="future-notice">
+    <p>🇧🇩 <strong>THE LEGACY GROWS:</strong> This map expands by 36 plots every time the current slots are filled. It is an infinite tribute.</p>
+    <p style="color: #ff4d4d; font-weight: bold;">⚠️ SEARCH MODE: Searching for a plot will highlight the target and blur the surroundings for clarity.</p>
+</div>
 
-        // Sample 12-digit Affiliate Codes (আমি এখানে ৫টি দিচ্ছি, আপনি ১০০০টি তালিকায় যোগ করতে পারবেন)
-        const validCodes = ["ARK123456789", "ELT987654321", "PIX112233445", "SOV556677889", "ARK990011223"];
-        let discountApplied = false;
+<footer>36th JULY LEGACY © 2026 | DEVELOPED BY KAWSAR AHMED</footer>
 
-        function checkReferral() {
-            const code = document.getElementById('refCode').value.toUpperCase();
-            if(validCodes.includes(code)) {
-                document.getElementById('oldP').style.display = "inline";
-                document.getElementById('finalPrice').innerText = "$0.80";
-                discountApplied = true;
-            } else {
-                document.getElementById('oldP').style.display = "none";
-                document.getElementById('finalPrice').innerText = "$1.00";
-                discountApplied = false;
-            }
+<a href="https://wa.me/8801756206213" class="wa-float" target="_blank">
+    <i class="fab fa-whatsapp"></i> 24/7 SUPPORT
+</a>
+
+<div id="legacy-tooltip"></div>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
+        authDomain: "the-5k-elite-legacy.firebaseapp.com",
+        databaseURL: "https://the-5k-elite-legacy-default-rtdb.firebaseio.com",
+        projectId: "the-5k-elite-legacy",
+        storageBucket: "the-5k-elite-legacy.firebasestorage.app",
+        messagingSenderId: "440824313752",
+        appId: "1:440824313752:web:2c93344dcfe2ba0a4c5ded"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    // Note: Using the new 'royal_oasis_v2' node as per your security rules
+    const db = firebase.database().ref('royal_oasis_v2/live'); 
+
+    // Global Functions for UI
+    function copyVal(val) {
+        navigator.clipboard.writeText(val);
+        alert("Copied: " + val);
+    }
+
+    function searchPlot() {
+        const id = document.getElementById('plotSearch').value;
+        if(!id) return;
+        
+        // Triggering the highlight effect in script.js (Assumed function name)
+        if(window.highlightPlot) {
+            window.highlightPlot(id);
+        } else {
+            alert("Search logic is loading... please wait.");
         }
+    }
 
-        function submitOrder() {
-            const name = document.getElementById('custName').value;
-            const phone = document.getElementById('custWhatsApp').value;
-            const plot = document.getElementById('plotID').value;
-            const ref = document.getElementById('refCode').value || "None";
+    function downloadCanvas() {
+        const canvas = document.getElementById('mainCanvas');
+        const link = document.createElement('a');
+        link.download = '36th-July-Legacy-Map.png';
+        link.href = canvas.toDataURL("image/png", 1.0);
+        link.click();
+    }
+</script>
 
-            if(!name || !phone || !plot) return alert("Please fill all required fields!");
-            if(plot < 1 || plot > 1000) return alert("Plot ID must be between 1 and 1000!");
-
-            // Save to Firebase
-            db.ref('pending_orders/' + plot).set({
-                customerName: name,
-                whatsapp: phone,
-                plotID: plot,
-                referral: ref,
-                price: discountApplied ? "0.80" : "1.00",
-                status: "Pending"
-            }).then(() => {
-                document.getElementById('congratsMsg').innerText = "Congratulations, " + name + "!";
-                document.getElementById('form-box').style.display = "none";
-                document.getElementById('success-pop').style.display = "flex";
-            });
-        }
-
-        function sendWhatsApp() {
-            const name = document.getElementById('custName').value;
-            const plot = document.getElementById('plotID').value;
-            const price = document.getElementById('finalPrice').innerText;
-            const ref = document.getElementById('refCode').value || "No Code";
-            
-            const msg = `ORDER DETAILS:%0AName: ${name}%0APlot ID: ${plot}%0APrice: ${price}%0AReferral: ${ref}%0A%0Aআমি প্লটটি অ্যাক্টিভেট করতে চাই। পেমেন্ট স্ক্রিনশট এবং লোগো নিচে দিচ্ছি।`;
-            
-            window.open(`https://wa.me/8801576940717?text=${msg}`, '_blank');
-        }
-    </script>
+<script src="script.js"></script>
 </body>
 </html>
